@@ -1,65 +1,67 @@
-import Image from "next/image";
+"use client";
+
+import { useMemo, useState } from "react";
+import IngresoForm from "./components/IngresoForm";
+import BolsilloCard from "./components/BolsilloCard";
+import { BOLSILLOS, calcularDistribucion, PORCENTAJE_SOBRANTE } from "./lib/bolsillos";
 
 export default function Home() {
+  const [ingreso, setIngreso] = useState(0);
+  const [prioridad, setPrioridad] = useState(BOLSILLOS[0].id);
+
+  const distribucion = useMemo(
+    () => calcularDistribucion(ingreso, prioridad),
+    [ingreso, prioridad]
+  );
+
+  const sobrante = (ingreso * PORCENTAJE_SOBRANTE) / 100;
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="page-shell">
+      <section className="hero-section">
+        <div>
+          <p className="eyebrow">Organiza tu dinero</p>
+          <h1 className="hero-title">Distribuye tu ingreso en bolsillos inteligentes</h1>
+          <p className="hero-copy">
+            Ingresa tu salario, elige tu bolsillo prioritario y ve cuánto recibe cada categoría.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className="hero-card">
+          <IngresoForm ingreso={ingreso} onIngresoChange={setIngreso} />
+
+          <div className="select-group">
+            <label htmlFor="prioridad">Bolsillo prioritario</label>
+            <select
+              id="prioridad"
+              className="select-input"
+              value={prioridad}
+              onChange={(event) => setPrioridad(event.target.value)}
+            >
+              {BOLSILLOS.map((bolsillo) => (
+                <option key={bolsillo.id} value={bolsillo.id}>
+                  {bolsillo.nombre}
+                </option>
+              ))}
+            </select>
+            <p className="select-hint">
+              El sobrante del {PORCENTAJE_SOBRANTE}% se agrega al bolsillo prioritario.
+            </p>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="cards-section">
+        {BOLSILLOS.map((bolsillo) => (
+          <BolsilloCard
+            key={bolsillo.id}
+            bolsillo={bolsillo}
+            ingreso={ingreso}
+            monto={Math.round(distribucion[bolsillo.id] ?? 0)}
+            sobrante={bolsillo.id === prioridad ? sobrante : 0}
+            esPrioridad={bolsillo.id === prioridad}
+          />
+        ))}
+      </section>
+    </main>
   );
 }
