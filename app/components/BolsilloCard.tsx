@@ -21,7 +21,7 @@ export default function BolsilloCard({ bolsillo, monto, esPrioridad, sobrante, i
       <div className="bolsillo-top">
         <span className="bolsillo-emoji">{bolsillo.emoji}</span>
         {esPrioridad && (
-          <span className="badge-prioridad">⭐ Prioridad</span>
+          <span className="badge-prioridad">Prioridad</span>
         )}
       </div>
 

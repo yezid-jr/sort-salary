@@ -21,7 +21,7 @@ export default function Home() {
       <section className="hero-section">
         <div>
           <p className="eyebrow">Organiza tu dinero</p>
-          <h1 className="hero-title">Distribuye tu ingreso en bolsillos inteligentes</h1>
+          <h1 className="hero-title">Distribuye tu ingreso</h1>
           <p className="hero-copy">
             Ingresa tu salario, elige tu bolsillo prioritario y ve cuánto recibe cada categoría.
           </p>
