@@ -162,7 +162,7 @@ a {
 .cards-section {
   width: min(1120px, 100%);
   display: grid;
-  gap: 18px;
+  gap: 10px;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
 }
 
@@ -268,5 +268,66 @@ a {
 @media (max-width: 640px) {
   .page-shell {
     padding: 24px 16px;
+  }
+}
+
+/* Mobile: compact vertical layout for Bolsillo cards */
+@media (max-width: 520px) {
+  .bolsillo-card {
+    padding: 10px;
+    gap: 6px;
+    border-radius: 14px;
+  }
+
+  .bolsillo-top {
+    gap: 0.5rem;
+    justify-content: flex-start;
+  }
+
+  .bolsillo-emoji {
+    font-size: 1.1rem;
+    margin-right: 6px;
+  }
+
+  .bolsillo-nombre {
+    font-size: 0.98rem;
+    margin: 0;
+    flex: 1 1 auto;
+  }
+
+  .badge-prioridad {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .bolsillo-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .bolsillo-barra-wrap {
+    flex: 1 1 auto;
+    height: 8px;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .bolsillo-pct-real {
+    white-space: nowrap;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--foreground);
+    margin-left: 4px;
+  }
+
+  .bolsillo-monto {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--foreground);
+  }
+
+  .bolsillo-footer {
+    display: none;
   }
 }

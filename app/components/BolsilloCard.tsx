@@ -20,20 +20,18 @@ export default function BolsilloCard({ bolsillo, monto, esPrioridad, sobrante, i
     >
       <div className="bolsillo-top">
         <span className="bolsillo-emoji">{bolsillo.emoji}</span>
-        {esPrioridad && (
-          <span className="badge-prioridad">Prioridad</span>
-        )}
+        <h3 className="bolsillo-nombre">{bolsillo.nombre}</h3>
+        {esPrioridad && <span className="badge-prioridad">Prioridad</span>}
       </div>
 
-      <h3 className="bolsillo-nombre">{bolsillo.nombre}</h3>
-
-      <div className="bolsillo-monto">{formatCOP(monto)}</div>
-
-      <div className="bolsillo-barra-wrap">
-        <div
-          className="bolsillo-barra"
-          style={{ width: `${Math.min(porcentajeReal, 100)}%` }}
-        />
+      <div className="bolsillo-bar-row">
+        <div className="bolsillo-barra-wrap">
+          <div
+            className="bolsillo-barra"
+            style={{ width: `${Math.min(porcentajeReal, 100)}%` }}
+          />
+        </div>
+        <span className="bolsillo-monto">{formatCOP(monto)}</span>
       </div>
 
       <div className="bolsillo-footer">
@@ -41,7 +39,6 @@ export default function BolsilloCard({ bolsillo, monto, esPrioridad, sobrante, i
         {esPrioridad && sobrante > 0 && (
           <span className="bolsillo-extra">+{formatCOP(sobrante)} extra</span>
         )}
-        <span className="bolsillo-pct-real">{porcentajeReal.toFixed(1)}% total</span>
       </div>
     </div>
   );
